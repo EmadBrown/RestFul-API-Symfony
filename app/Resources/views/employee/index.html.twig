@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+       <th>Modify</th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for employee in employees %}
+        <tr>
+                <th scope="row">{{ employee.id }}</th>
+                <td>{{ employee.firstName }}</td>
+                <td>{{ employee.lastName }}</td>
+                <td>{{ employee.email }}</td>
+                 <td>
+                     <a href="/details/{{ employee.id }}" class="btn btn-success"> View </a>
+                     <a href="/edit/{{ employee.id }}" class="btn btn-default"> Edit </a>
+                     <a href="/delete/{{ employee.id }}" class="btn btn-danger"> Delete </a>
+                 </td>
+        </tr>
+    {%endfor%}
+
+  </tbody>
+</table>
+
+{% endblock  %}
