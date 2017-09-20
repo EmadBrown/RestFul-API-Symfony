@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Entity\Trash;
  
  
 
@@ -219,10 +220,45 @@ class EmployeeController extends Controller
      */
      public function  deleteAction($id)
     {
+         
+          $remove = new Trash();
+          
           $em = $this->getDoctrine()->getManager();
           $employee = $em->getRepository('AppBundle:Employee')->find($id);
           
-            
+          
+        // Get New Employee Data
+            $firstName = $employee->getFirstName();
+            $lastName =  $employee->getLastName();
+            $email =  $employee->getEmail();
+            $phone =  $employee->getPhone();
+            $address =  $employee->getAddress();
+            $startDate =  $employee->getStartDate();
+            $endDate =  $employee->getEndDate();
+            $jobTitle =  $employee->getJobTitle();
+            $salary =  $employee->getSalary();
+            $description =  $employee->getDescription();
+            $createDate =  $employee->getCreateDate();
+                    
+          
+         // Insert data in Trash
+            $remove->setid($id);
+            $remove->setFirstName($firstName);
+            $remove->setLastName($lastName);
+            $remove->setEmail($email);
+            $remove->setPhone($phone);
+            $remove->setAddress($address);
+            $remove->setStartDate($startDate);
+            $remove->setEndDate($endDate);
+            $remove->setJobTitle($jobTitle);
+            $remove->setSalary($salary);
+            $remove->setDescription($description);
+            $remove->setCreateDate($createDate);
+
+          $emRemove = $this->getDoctrine()->getManager();
+
+          $emRemove->persist($remove);
+          $emRemove->flush();
          
           $em->remove($employee);
           $em ->flush();
