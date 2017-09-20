@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th>Start Date Contract</th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for employee in employees %}
+        <tr>
+                <th scope="row">{{ employee.id }}</th>
+                <td>{{ employee.firstName }}</td>
+                <td>{{ employee.lastName }}</td>
+                <td>{{ employee.email }}</td>
+                <td>{{ employee.startDate|date}}</td>
+                 <td>
+                     <a href="/Restore/{{ employee.id }}" class="btn btn-success"> Restore </a>
+                 </td>
+        </tr>
+    {%endfor%}
+
+  </tbody>
+</table>
+
+{% endblock  %}

@@ -214,6 +214,28 @@ class EmployeeController extends Controller
     }
     
     
+     /**
+     * @Route(" /delete/{id}", name="employee_delete")
+     */
+     public function  deleteAction($id)
+    {
+          $em = $this->getDoctrine()->getManager();
+          $employee = $em->getRepository('AppBundle:Employee')->find($id);
+          
+            
+         
+          $em->remove($employee);
+          $em ->flush();
+                  
+         $this->addFlash(
+                            'Notice',
+                            'Employee Has Removed'
+                  );
+                    
+         return $this->redirectToRoute('employee_list');
+    }
+    
+    
  
     
 }
