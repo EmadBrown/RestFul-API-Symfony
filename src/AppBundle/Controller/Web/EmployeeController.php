@@ -4,8 +4,15 @@ namespace AppBundle\Controller\Web;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Employee;
- 
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
  
  
 
@@ -27,4 +34,79 @@ class EmployeeController extends Controller
         ));
     }
     
+     /**
+     * @Route("/create", name="employee_create")
+     */
+    
+     public function createAction(Request $request)
+    {
+         
+         $employee= new Employee;
+         $form = $this->createFormBuilder($employee)
+                 ->add( 'firstName' , TextType::class, array( 'attr' => array( 'class' => 'form-control', 'style' => 'margin-bottom:15px' )))
+                 ->add( 'lastName' , TextType::class, array( 'attr' => array( 'class' => 'form-control', 'style' => 'margin-bottom:15px' )))
+                 ->add( 'email' ,  EmailType::class, array( 'attr' => array( 'class' => 'form-control', 'style' => 'margin-bottom:15px' )))
+                 ->add( 'phone' , NumberType::class, array( 'attr' => array( 'class' => 'form-control', 'style' => 'margin-bottom:15px' )))
+                 ->add('address' , TextType::class, array( 'attr' => array( 'class' => 'form-control', 'style' => 'margin-bottom:15px' )))
+                 ->add( 'startDate' , DateTimeType::class, array( 'attr' => array( 'class' => 'form-control', 'style' => 'margin-bottom:15px' )))
+                 ->add( 'endDate' , DateTimeType::class, array( 'attr' => array( 'class' => 'form-control', 'style' => 'margin-bottom:15px' )))
+                 ->add( 'jobTitle' , TextType::class, array( 'attr' => array( 'class' => 'form-control', 'style' => 'margin-bottom:15px' )))
+                 ->add( 'salary' , MoneyType::class, array( 'attr' => array( 'class' => 'form-control', 'style' => 'margin-bottom:15px' )))
+                 ->add( 'description' , TextareaType::class,  array( 'attr' => array( 'class' => 'form-control', 'style' => 'margin-bottom:15px' )))
+                ->add( 'save' , SubmitType::class,  array( 'label' => ' Create Employee', 'attr' => array( 'class' => 'btn btn-primary', 'style' => 'margin-bottom:15px' )))
+                 ->getForm();
+         
+         $form->handleRequest($request);
+         
+         if($form->isSubmitted()&& $form->isValid())
+         {
+                // Get New Employee Data
+                    $firstName = $form['firstName']->getData();
+                    $lastName = $form['lastName']->getData();
+                    $email = $form['email']->getData();
+                    $phone = $form['phone']->getData();
+                    $address = $form['address']->getData();
+                    $startDate = $form['startDate']->getData();
+                    $endDate = $form['endDate']->getData();
+                    $jobTitle = $form['jobTitle']->getData();
+                    $salary = $form['salary']->getData();
+                    $description = $form['description']->getData();
+                    
+                    $now = new\DateTime('now');
+                    
+                    $employee->setFirstName($firstName);
+                    $employee->setLastName($lastName);
+                    $employee->setEmail($email);
+                    $employee->setPhone($phone);
+                    $employee->setAddress($address);
+                    $employee->setStartDate($startDate);
+                    $employee->setEndDate($endDate);
+                    $employee->setJobTitle($jobTitle);
+                    $employee->setSalary($salary);
+                    $employee->setDescription($description);
+                    $employee->setCreateDate($now);
+                    
+                    $em = $this->getDoctrine()->getManager();
+                    
+                    $em->persist($employee);
+                    $em->flush();
+                    
+                    $this->addFlash(
+                            'Notice',
+                            'Employee Has Added'
+                           
+                    );
+                    
+                    return $this->redirectToRoute('employee_list');
+         }
+                 
+                 return $this->render('employee/create.html.twig', array(
+                            'form'  =>$form->createView()
+                 ));
+    }
+    
+ 
+    
 }
+
+
