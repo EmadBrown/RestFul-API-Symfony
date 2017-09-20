@@ -99,6 +99,20 @@ class Employee
     private $createDate;
 
 
+        /**
+     * Set Id
+     *
+     * @param string $id
+     *
+     * @return Id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+    
     /**
      * Get id
      *
