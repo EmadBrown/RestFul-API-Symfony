@@ -12,15 +12,15 @@
     </tr>
   </thead>
   <tbody>
-      {% for remove in removes %}
+      {% for employee in employees %}
         <tr>
-                <th scope="row">{{ remove.id }}</th>
-                <td>{{ remove.firstName }}</td>
-                <td>{{ remove.lastName }}</td>
-                <td>{{ remove.email }}</td>
+                <th scope="row">{{ employee.id }}</th>
+                <td>{{ employee.firstName }}</td>
+                <td>{{ employee.lastName }}</td>
+                <td>{{ employee.email }}</td>
                  <td>
-                     <a href="/restore/{{ remove.id }}" class="btn btn-success"> Restore </a>
-                      <a href="/delete/{{ remove.id }}" class="btn btn-danger"> Delete </a>
+                     <a href="/restore/{{ employee.id }}" class="btn btn-success"> Restore </a>
+                      <a href="/trashDelete/{{ employee.id }}" class="btn btn-danger"> Delete </a>
                  </td>
         </tr>
     {%endfor%}

@@ -22,16 +22,37 @@ class TrashController  extends Controller
     
     public function listAction()
     {
-        $remove = $this->getDoctrine()
+        $trashEmployee = $this->getDoctrine()
                     ->getRepository('AppBundle:Trash')
                     ->findAll();
         
         return $this->render('employee/trash.html.twig', array(
-            'removes' => $remove
+            'employees' => $trashEmployee
         ));
     }
     
     
+     /**
+     * @Route("/trashDelete/{id}", name="employee_trash_delete")
+     */
     
- 
+    public function  deleteAction($id)
+    {
+
+          $em = $this->getDoctrine()->getManager();
+          $trashEmployee = $em->getRepository('AppBundle:Trash')->find($id);
+         
+          $em->remove($trashEmployee);
+          $em ->flush();
+                  
+         $this->addFlash(
+                            'Notice',
+                            'Employee has  removed from Trash'
+                  );
+                    
+         return $this->redirectToRoute('employee_trash');
+    }
+    
+    
+   
 }
