@@ -33,3 +33,10 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+    
+    services:
+    crv.doctrine_entity_repository.blog_post:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - AppBundle\Entity\Employee  
