@@ -199,6 +199,21 @@ class EmployeeController extends Controller
     }
     
     
+     /**
+     * @Route(" /details/{id}", name="employee_details")
+     */
+     public function  detailsAction($id)
+    {
+          $employee =  $this->getDoctrine()
+                    ->getRepository('AppBundle:Employee')
+                    ->find($id);
+        
+        return $this->render('employee/details.html.twig', array(
+            'employee' => $employee
+        ));
+    }
+    
+    
  
     
 }
